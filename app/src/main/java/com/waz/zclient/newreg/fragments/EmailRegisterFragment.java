@@ -28,6 +28,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
+
+import com.waz.zclient.AppEntryController;
+import com.waz.zclient.BaseActivity;
 import com.waz.zclient.R;
 import com.waz.zclient.controllers.navigation.Page;
 import com.waz.zclient.core.stores.appentry.AppEntryError;
@@ -40,6 +43,7 @@ import com.waz.zclient.ui.animation.interpolators.penner.Expo;
 import com.waz.zclient.ui.text.TypefaceEditText;
 import com.waz.zclient.ui.text.TypefaceTextView;
 import com.waz.zclient.ui.utils.KeyboardUtils;
+import com.waz.zclient.ui.views.tab.TabIndicatorLayout;
 import com.waz.zclient.utils.ViewUtils;
 
 public class EmailRegisterFragment extends BaseFragment<EmailRegisterFragment.Container> implements TextWatcher,
@@ -50,8 +54,8 @@ public class EmailRegisterFragment extends BaseFragment<EmailRegisterFragment.Co
     private TypefaceEditText textViewEmail;
     private TypefaceEditText textViewPassword;
     private TypefaceTextView passwordLengthMessage;
-    private View backButton;
     private PhoneConfirmationButton signInButton;
+    private TabIndicatorLayout tabIndicatorLayout;
 
     private IAppEntryStore.ErrorCallback errorCallback = new IAppEntryStore.ErrorCallback() {
         @Override
@@ -82,9 +86,9 @@ public class EmailRegisterFragment extends BaseFragment<EmailRegisterFragment.Co
         textViewName = ViewUtils.getView(view, R.id.ttv__signup__name);
         textViewEmail = ViewUtils.getView(view, R.id.ttv__signup__email);
         textViewPassword = ViewUtils.getView(view, R.id.ttv__signup__password);
-        backButton = ViewUtils.getView(view, R.id.ll__registrations_button__back);
         signInButton = ViewUtils.getView(view, R.id.pcb__signin__email);
         passwordLengthMessage = ViewUtils.getView(view, R.id.ttv__email_reg__pw_length);
+        tabIndicatorLayout = ViewUtils.getView(view, R.id.til__app_entry);
 
         return view;
     }
@@ -97,7 +101,7 @@ public class EmailRegisterFragment extends BaseFragment<EmailRegisterFragment.Co
         textViewName.setText(getStoreFactory().getAppEntryStore().getName());
         textViewEmail.setText(getStoreFactory().getAppEntryStore().getEmail());
         textViewPassword.setText(getStoreFactory().getAppEntryStore().getPassword());
-
+        tabIndicatorLayout.setLabels(new int[] {R.string.new_reg__phone_signup__create_account, R.string.i_have_an_account});
         textViewPassword.addTextChangedListener(new OnTextChangedListener() {
             boolean wasValid = true;
             @Override
@@ -134,7 +138,6 @@ public class EmailRegisterFragment extends BaseFragment<EmailRegisterFragment.Co
     @Override
     public void onResume() {
         super.onResume();
-        backButton.setOnClickListener(this);
         signInButton.setOnClickListener(this);
         textViewName.addTextChangedListener(this);
         textViewEmail.addTextChangedListener(this);
@@ -152,7 +155,6 @@ public class EmailRegisterFragment extends BaseFragment<EmailRegisterFragment.Co
         textViewName.removeTextChangedListener(this);
         textViewEmail.removeTextChangedListener(this);
         textViewPassword.removeTextChangedListener(this);
-        backButton.setOnClickListener(null);
         signInButton.setOnClickListener(null);
         super.onPause();
     }
@@ -162,7 +164,6 @@ public class EmailRegisterFragment extends BaseFragment<EmailRegisterFragment.Co
         textViewName = null;
         textViewEmail = null;
         textViewPassword = null;
-        backButton = null;
         super.onDestroyView();
     }
 
@@ -176,9 +177,6 @@ public class EmailRegisterFragment extends BaseFragment<EmailRegisterFragment.Co
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.ll__registrations_button__back:
-                onBackClicked();
-                break;
             case R.id.pcb__signin__email:
                 onRegisterClicked();
                 break;
@@ -188,7 +186,7 @@ public class EmailRegisterFragment extends BaseFragment<EmailRegisterFragment.Co
 
     private void onBackClicked() {
         KeyboardUtils.hideKeyboard(getActivity());
-        getStoreFactory().getAppEntryStore().onBackPressed();
+        ((BaseActivity) getActivity()).injectJava(AppEntryController.class).goToLoginEmail();
     }
 
     private void onRegisterClicked() {
@@ -196,12 +194,11 @@ public class EmailRegisterFragment extends BaseFragment<EmailRegisterFragment.Co
         getContainer().enableProgress(true);
         KeyboardUtils.hideKeyboard(getActivity());
 
-        getStoreFactory().getAppEntryStore()
-                         .registerWithEmail(textViewEmail.getText().toString(),
-                                            textViewPassword.getText().toString(),
-                                            textViewName.getText().toString(),
-                                            getControllerFactory().getAccentColorController().getAccentColor(),
-                                            errorCallback);
+        ((BaseActivity) getActivity()).injectJava(AppEntryController.class).registerEmail(
+            textViewName.getText().toString(),
+            textViewEmail.getText().toString(),
+            textViewPassword.getText().toString(),
+            errorCallback);
     }
 
     @Override
