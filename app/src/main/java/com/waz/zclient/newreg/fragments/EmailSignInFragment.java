@@ -30,7 +30,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
-import com.waz.api.impl.EmailCredentials;
 import com.waz.service.ZMessaging;
 import com.waz.zclient.AppEntryController;
 import com.waz.zclient.BaseActivity;
@@ -49,7 +48,6 @@ import com.waz.zclient.pages.main.profile.views.GuidedEditText;
 import com.waz.zclient.tracking.GlobalTrackingController;
 import com.waz.zclient.ui.utils.KeyboardUtils;
 import com.waz.zclient.ui.views.tab.TabIndicatorLayout;
-import com.waz.zclient.utils.LayoutSpec;
 import com.waz.zclient.utils.ViewUtils;
 
 public class EmailSignInFragment extends BaseFragment<EmailSignInFragment.Container> implements TextWatcher,
@@ -273,7 +271,7 @@ public class EmailSignInFragment extends BaseFragment<EmailSignInFragment.Contai
         getControllerFactory().getLoadTimeLoggerController().loginPressed();
         getContainer().enableProgress(true);
         KeyboardUtils.hideKeyboard(getActivity());
-        ((BaseActivity) getActivity()).injectJava(AppEntryController.class).loginEmail(guidedEditTextEmail.getText(), guidedEditTextPassword.getText(), errorCallback);
+        ((BaseActivity) getActivity()).injectJava(AppEntryController.class).loginEmail(guidedEditTextEmail.getText(), guidedEditTextPassword.getText());
     }
 
     private void goBack() {

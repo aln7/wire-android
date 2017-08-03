@@ -194,11 +194,6 @@ public class EmailRegisterFragment extends BaseFragment<EmailRegisterFragment.Co
         getContainer().enableProgress(true);
         KeyboardUtils.hideKeyboard(getActivity());
 
-        ((BaseActivity) getActivity()).injectJava(AppEntryController.class).registerEmail(
-            textViewName.getText().toString(),
-            textViewEmail.getText().toString(),
-            textViewPassword.getText().toString(),
-            errorCallback);
     }
 
     @Override
