@@ -335,7 +335,6 @@ public class PhoneRegisterFragment extends BaseFragment<PhoneRegisterFragment.Co
     @Override
     public void onItemSelected(int pos) {
         if (pos == TabPages.SIGN_IN) {
-            ((BaseActivity) getActivity()).injectJava(AppEntryController.class).goToLoginEmail();
             ViewUtils.fadeOutView(titleView);
         } else {
             ViewUtils.fadeInView(titleView);

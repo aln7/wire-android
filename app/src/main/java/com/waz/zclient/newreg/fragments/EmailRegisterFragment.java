@@ -186,7 +186,6 @@ public class EmailRegisterFragment extends BaseFragment<EmailRegisterFragment.Co
 
     private void onBackClicked() {
         KeyboardUtils.hideKeyboard(getActivity());
-        ((BaseActivity) getActivity()).injectJava(AppEntryController.class).goToLoginEmail();
     }
 
     private void onRegisterClicked() {

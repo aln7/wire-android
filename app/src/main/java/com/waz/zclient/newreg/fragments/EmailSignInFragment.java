@@ -259,7 +259,6 @@ public class EmailSignInFragment extends BaseFragment<EmailSignInFragment.Contai
                 onPasswordResetButtonClicked();
                 break;
             case R.id.ttv__new_reg__sign_in__go_to__phone:
-                ((BaseActivity) getActivity()).injectJava(AppEntryController.class).goToLoginPhone();
                 break;
             case R.id.pcb__signin__email:
                 signIn();
@@ -289,7 +288,6 @@ public class EmailSignInFragment extends BaseFragment<EmailSignInFragment.Contai
     @Override
     public void onItemSelected(int pos) {
         if (pos == TabPages.CREATE_ACCOUNT) {
-            ((BaseActivity) getActivity()).injectJava(AppEntryController.class).goToRegisterEmail();
         }
     }
 

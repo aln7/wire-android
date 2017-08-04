@@ -30,6 +30,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
+
+import com.waz.api.impl.PhoneCredentials;
+import com.waz.model.PhoneNumber;
 import com.waz.service.ZMessaging;
 import com.waz.zclient.AppEntryController;
 import com.waz.zclient.BaseActivity;
@@ -245,13 +248,14 @@ public class PhoneSignInFragment extends BaseFragment<PhoneSignInFragment.Contai
         getContainer().enableProgress(true);
         KeyboardUtils.hideKeyboard(getActivity());
         ((BaseActivity) getActivity()).injectJava(GlobalTrackingController.class).tagEvent(new EnteredLoginPhoneEvent());
+        /*
         getStoreFactory().getAppEntryStore().setSignInPhone(textViewCountryCode.getText().toString(),
                                                             editTextPhone.getText().toString(),
                                                             errorCallback);
+                                                            */
     }
 
     private void openEmailSignIn() {
-        ((BaseActivity) getActivity()).injectJava(AppEntryController.class).goToLoginEmail();
     }
 
     @Override
@@ -312,7 +316,6 @@ public class PhoneSignInFragment extends BaseFragment<PhoneSignInFragment.Contai
     @Override
     public void onItemSelected(int pos) {
         if (pos == TabPages.CREATE_ACCOUNT) {
-            ((BaseActivity) getActivity()).injectJava(AppEntryController.class).goToRegisterEmail();
         }
     }
 
