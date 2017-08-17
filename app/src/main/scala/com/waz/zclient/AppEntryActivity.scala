@@ -35,10 +35,9 @@ import com.waz.zclient.AppEntryController._
 import com.waz.zclient.appentry.{EmailVerifyEmailFragment, FirstLaunchAfterLoginFragment, PhoneSetNameFragment, VerifyPhoneFragment}
 import com.waz.zclient.controllers.navigation.{NavigationControllerObserver, Page}
 import com.waz.zclient.controllers.tracking.screens.ApplicationScreen
-import com.waz.zclient.core.controllers.tracking.attributes.{Attribute, RegistrationEventContext}
+import com.waz.zclient.core.controllers.tracking.attributes.Attribute
 import com.waz.zclient.core.controllers.tracking.events.Event
 import com.waz.zclient.core.controllers.tracking.events.registration.{OpenedPhoneRegistrationFromInviteEvent, SucceededWithRegistrationEvent}
-import com.waz.zclient.core.stores.appentry.AppEntryState
 import com.waz.zclient.fragments.{CountryDialogFragment, SignInFragment}
 import com.waz.zclient.newreg.fragments.SignUpPhotoFragment.UNSPLASH_API_URL
 import com.waz.zclient.newreg.fragments._
@@ -253,7 +252,6 @@ class AppEntryActivity extends BaseActivity
     }
 
     if (fromGenericInvite) {
-      getStoreFactory.getAppEntryStore.setRegistrationContext(RegistrationEventContext.GENERIC_INVITE_PHONE)
       val referralToken = getControllerFactory.getUserPreferencesController.getReferralToken
       val token = getControllerFactory.getUserPreferencesController.getGenericInvitationToken
       globalTrackingController.tagEvent(new OpenedPhoneRegistrationFromInviteEvent(referralToken, token))

@@ -18,7 +18,6 @@
 package com.waz.zclient.api.scala;
 
 import android.content.Context;
-import com.waz.zclient.core.api.scala.AppEntryStore;
 import com.waz.zclient.core.api.scala.ScalaConnectStore;
 import com.waz.zclient.core.api.scala.ScalaConversationStore;
 import com.waz.zclient.core.api.scala.ScalaDraftStore;
@@ -31,7 +30,6 @@ import com.waz.zclient.core.api.scala.ScalaSingleParticipantStore;
 import com.waz.zclient.core.stores.StoreFactory;
 import com.waz.zclient.core.stores.api.IZMessagingApiStore;
 import com.waz.zclient.core.stores.api.ZMessagingApiStore;
-import com.waz.zclient.core.stores.appentry.IAppEntryStore;
 import com.waz.zclient.core.stores.connect.IConnectStore;
 import com.waz.zclient.core.stores.conversation.IConversationStore;
 import com.waz.zclient.core.stores.draft.IDraftStore;
@@ -58,11 +56,6 @@ public class ScalaStoreFactory extends StoreFactory {
     @Override
     protected INetworkStore createNetworkStore() {
         return new ScalaNetworkStore(getZMessagingApiStore().getApi());
-    }
-
-    @Override
-    protected IAppEntryStore createAppEntryStore() {
-        return new AppEntryStore(context, getZMessagingApiStore().getApi());
     }
 
     @Override

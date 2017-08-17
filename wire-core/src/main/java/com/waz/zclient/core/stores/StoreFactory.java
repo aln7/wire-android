@@ -18,7 +18,6 @@
 package com.waz.zclient.core.stores;
 
 import com.waz.zclient.core.stores.api.IZMessagingApiStore;
-import com.waz.zclient.core.stores.appentry.IAppEntryStore;
 import com.waz.zclient.core.stores.connect.IConnectStore;
 import com.waz.zclient.core.stores.conversation.IConversationStore;
 import com.waz.zclient.core.stores.draft.IDraftStore;
@@ -40,7 +39,6 @@ public abstract class StoreFactory implements IStoreFactory {
     protected IParticipantsStore participantsStore;
     protected ISingleParticipantStore singleParticipantStore;
     protected IInAppNotificationStore inAppNotificationStore;
-    protected IAppEntryStore appEntryStore;
     protected IConnectStore connectStore;
     protected IDraftStore draftStore;
     protected IZMessagingApiStore zMessagingApiStore;
@@ -48,8 +46,6 @@ public abstract class StoreFactory implements IStoreFactory {
     private boolean isTornDown;
 
     protected abstract IZMessagingApiStore createZMessagingApiStore();
-
-    protected abstract IAppEntryStore createAppEntryStore();
 
     protected abstract IConversationStore createConversationStore();
 
@@ -80,16 +76,6 @@ public abstract class StoreFactory implements IStoreFactory {
             zMessagingApiStore = createZMessagingApiStore();
         }
         return zMessagingApiStore;
-    }
-
-    @Override
-    public IAppEntryStore getAppEntryStore() {
-        verifyLifecycle();
-        if (appEntryStore == null) {
-            appEntryStore = createAppEntryStore();
-        }
-
-        return appEntryStore;
     }
 
     @Override
@@ -205,11 +191,6 @@ public abstract class StoreFactory implements IStoreFactory {
         if (inAppNotificationStore != null) {
             inAppNotificationStore.tearDown();
             inAppNotificationStore = null;
-        }
-
-        if (appEntryStore != null) {
-            appEntryStore.tearDown();
-            appEntryStore = null;
         }
 
         if (singleParticipantStore != null) {
